@@ -1,9 +1,15 @@
 import type { Metadata, Viewport } from 'next'
+import dynamic from 'next/dynamic'
 import { bebasNeue, instrumentSans, ibmPlexMono } from '@/app/fonts'
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
 import { CookieBanner } from '@/components/analytics/CookieBanner'
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
 import '@/app/globals.css'
+
+const ChatBot = dynamic(() => import('@/components/chatbot/ChatBot'), {
+  ssr: false,
+  loading: () => null,
+})
 
 const ANTI_FOUC = `(function(){try{var t=localStorage.getItem('atlas-theme')||'dark';document.documentElement.setAttribute('data-theme',t)}catch(e){}})();`
 
@@ -92,6 +98,7 @@ export default function RootLayout({
           <GoogleAnalytics />
           <CookieBanner />
           {children}
+          <ChatBot />
         </ThemeProvider>
       </body>
     </html>

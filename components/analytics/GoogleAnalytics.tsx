@@ -32,9 +32,7 @@ export function GoogleAnalytics() {
 // Called by CookieBanner when analytics consent is granted
 export function enableGA() {
   if (typeof window === 'undefined' || !GA_ID) return
-  // @ts-expect-error gtag is injected via script
   if (typeof window.gtag === 'function') {
-    // @ts-expect-error gtag is injected via script
     window.gtag('consent', 'update', {
       analytics_storage: 'granted',
     })
@@ -44,9 +42,7 @@ export function enableGA() {
 // Called by CookieBanner when analytics consent is denied
 export function disableGA() {
   if (typeof window === 'undefined' || !GA_ID) return
-  // @ts-expect-error gtag is injected via script
   if (typeof window.gtag === 'function') {
-    // @ts-expect-error gtag is injected via script
     window.gtag('consent', 'update', {
       analytics_storage: 'denied',
     })
