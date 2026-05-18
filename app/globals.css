@@ -1,0 +1,319 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── BRAND TOKENS — EASING / TIMING (theme-invariant) ── */
+:root {
+  --easing-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.15s;
+  --duration-base: 0.6s;
+  --duration-slow: 0.9s;
+}
+
+/* ── DARK ATELIER (default) ── */
+:root,
+:root[data-theme="dark"] {
+  --color-graphite: #1C1C1E;
+  --color-furnace: #141414;
+  --color-cream: #F5F0E8;
+  --color-amber: #F0A500;
+  --color-amber-dim: rgba(240, 165, 0, 0.15);
+  --color-amber-border: rgba(240, 165, 0, 0.25);
+  --color-steel: #555555;
+  --color-border: #2A2A2C;
+}
+
+/* ── PAPER ATELIER ── */
+:root[data-theme="paper"] {
+  --color-graphite: #F5F0E8;
+  --color-furnace: #EDE6D7;
+  --color-cream: #1C1C1E;
+  --color-amber: #C88800;
+  --color-amber-dim: rgba(200, 136, 0, 0.15);
+  --color-amber-border: rgba(200, 136, 0, 0.25);
+  --color-steel: #4A4A4C;
+  --color-border: #D4CCB8;
+}
+
+/* ── BASE RESET ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-graphite);
+  color: var(--color-cream);
+  font-family: var(--font-instrument), sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── SCROLL REVEAL ANIMATION ── */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s var(--easing-expo),
+    transform 0.7s var(--easing-expo);
+}
+
+.reveal-item.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* GSAP will-check this class to skip animations */
+  body::before {
+    content: 'reduced';
+    display: none;
+  }
+}
+
+/* ── TYPOGRAPHY BASE ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-bebas), sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  color: var(--color-cream);
+}
+
+p, span, a, li {
+  font-family: var(--font-instrument), sans-serif;
+}
+
+/* ── SELECTION ── */
+::selection {
+  background-color: rgba(240, 165, 0, 0.3);
+  color: var(--color-cream);
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-furnace);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-steel);
+}
+
+/* ── UTILITY LAYERS ── */
+@layer utilities {
+  .text-cream {
+    color: var(--color-cream);
+  }
+  .text-amber {
+    color: var(--color-amber);
+  }
+  .text-steel {
+    color: var(--color-steel);
+  }
+  .bg-graphite {
+    background-color: var(--color-graphite);
+  }
+  .bg-furnace {
+    background-color: var(--color-furnace);
+  }
+  .border-amber-dim {
+    border-color: var(--color-amber-dim);
+  }
+  .border-amber-border {
+    border-color: var(--color-amber-border);
+  }
+
+  /* Sharp containers — no border-radius on brand elements */
+  .sharp {
+    border-radius: 0 !important;
+  }
+
+  /* Amber accent line */
+  .accent-line {
+    display: block;
+    height: 2px;
+    background-color: var(--color-amber);
+    transform-origin: left;
+  }
+
+  /* Label style */
+  .label-mono {
+    font-family: var(--font-ibmplex), monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-steel);
+  }
+
+  .label-instrument {
+    font-family: var(--font-instrument), sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* GSAP word-split spans */
+  .split-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .split-word-inner {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  /* Section counter top-right */
+  .section-counter {
+    font-family: var(--font-ibmplex), monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--color-steel);
+  }
+}
+
+/* ── KEYFRAMES ── */
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #F0A500) drop-shadow(0 0 18px rgba(240,165,0,0.5)); }
+  50% { opacity: 0.85; filter: drop-shadow(0 0 3px #F0A500) drop-shadow(0 0 8px rgba(240,165,0,0.25)); }
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.4; }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes spotlight-spin {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor-custom-active,
+.cursor-custom-active * {
+  cursor: none !important;
+}
+
+/* ── NEON HELPERS ── */
+.neon-glow {
+  animation: neon-pulse 2.4s ease-in-out infinite;
+}
+
+.neon-flicker {
+  animation: neon-flicker 8s step-end infinite;
+}
+
+.dot-pulse {
+  animation: dot-pulse 1.6s ease-in-out infinite;
+}
+
+/* ── FOCUS STATES ── */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 4px;
+}
+
+/* ── SCROLL HINT BOUNCE ── */
+@keyframes scroll-hint-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(8px); opacity: 0.8; }
+}
+
+/* ── MARQUEE ── */
+.marquee-pause-hover:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── BENTO GRID ── */
+@layer components {
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-flow: dense;
+    gap: 1px;
+    background-color: var(--color-border);
+  }
+
+  .bento-cell {
+    background-color: var(--color-graphite);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--duration-fast) ease;
+  }
+
+  .bento-cell:hover {
+    border-color: var(--color-amber);
+  }
+
+  .bento-cell-featured {
+    background-color: var(--color-furnace);
+  }
+
+  /* Process step connector */
+  .process-connector {
+    position: relative;
+  }
+
+  .process-connector::after {
+    content: '';
+    position: absolute;
+    top: 32px;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-border);
+    transform-origin: left;
+  }
+}
